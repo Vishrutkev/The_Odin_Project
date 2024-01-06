@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock_Paper_scissor</title>
+    <link rel="stylesheet" href="">
+  </head>
+  <body>
+    <script>
+        var computerWin = 0;
+        var playerWin = 0;
+        function getComputerChoice() {
+            const randomNumber = Math.floor(Math.random() * 3);
+            const choices = ["rock", "paper", "scissor"];
+
+            return choices[randomNumber];
+        }
+        function playRound(player, computer, computerWin, paperWin) {
+            if(player === computer){
+                return;
+            }
+            if(player === "rock" && computer === "paper"){
+                computerWin+=1;
+            }else if(player === "paper" && computer === "scissor"){
+                computerWin+=1;
+            }else if(player === "scissor" && computer === "rock"){
+                computerWin+=1;
+            }else {
+                playerWin+=1;
+            }
+            return {computerWin, paperWin};
+        }
+        
+        function game() {
+            let max = 5;
+            while (max > 0) {
+                let player = prompt("Enter rock, paper, or scissor");
+                let computer = getComputerChoice();
+                const result = playRound(player, computer, computerWin, playerWin);
+                console.log("player = " + player);
+                console.log("computer = " + computer);
+                console.log("playerWin = " + result.playerWin);
+                console.log("computerWin = " + result.computerWin);
+                max = max-1;
+            }
+            if(max == 0) {
+                if(computerWin > playerWin){
+                    console.log("You Lose!!");
+                }else if(playerWin > computerWin){
+                    console.log("You Win!!");
+                }else {
+                    console.log("It's a Tie!")
+                }
+                computerWin = 0;
+                playerWin = 0;
+            }
+        }
+
+        game();
+
+    </script>
+  </body>
+</html>
