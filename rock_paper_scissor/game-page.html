@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock_Paper_scissor</title>
+    <link rel="stylesheet" href="game-page.css">
+  </head>
+  <body>
+    <div class="background-image">
+        <div class="scoreTracker">
+            <h2 >Player Win: <span id="playerScore">0</span></h2>
+            <h2 >Computer Win: <span id="computerScore">0</span></h2>
+        </div>
+        <div class="currentSelect">
+            <h3 >You Select: <span id="playerSelect"></span></h3>
+            <h3 >Computer Select: <span id="computerSelect"></span></h3>
+            <h3 >Current Round Win: <span id="currentWin"></span></h3>
+        </div>
+        <div>
+            <h2 id="result"></h2>
+        </div>
+        <div class="buttons">
+            <button class="hidden-button" onclick="playRound('rock', getComputerChoice())">Rock</button>
+            <button class="hidden-button" onclick="playRound('paper', getComputerChoice())">Paper</button>
+            <button class="hidden-button" onclick="playRound('scissors', getComputerChoice())">Scissors</button>
+        </div>
+        <div class="tagName">
+            <h2>Rock</h2>
+            <h2>Paper</h2>
+            <h2>Scissor</h2>
+        </div>
+        <div class="restart-btn">
+            <button id="restart">Restart Game</button>
+        </div>
+    </div>
+
+    <script> 
+            var playerScore = document.getElementById('playerScore');
+            var computerScore = document.getElementById('computerScore');
+            var result = document.getElementById('result');
+            var restart = document.getElementById('restart');
+            var playerSelect = document.getElementById('playerSelect');
+            var computerSelect = document.getElementById('computerSelect');
+            var currentWin = document.getElementById('currentWin');
+            var computerWin = 0;
+            var playerWin = 0;
+            var count = 0;
+        function getComputerChoice() {
+            const randomNumber = Math.floor(Math.random() * 3);
+            const choices = ["rock", "paper", "scissor"];
+
+            return choices[randomNumber];
+        }
+
+        function playRound(player, computer) {
+            console.log("player = " +  player);
+            console.log("computer = " +  computer);
+            if(player == computer){
+                //return {computerWin, playerWin};
+                currentWin.textContent = 'Tie!'
+                playerSelect.textContent = player;
+                computerSelect.textContent = computer;
+                //return;
+            }
+            if(player === "rock" && computer === "paper"){
+                computerWin++;
+                currentWin.textContent = 'Computer Won!'
+                //return {computerWin, playerWin};
+            }else if(player === "paper" && computer === "scissor"){
+                computerWin++;
+                currentWin.textContent = 'Computer Won!'
+                //return {computerWin, playerWin};
+            }else if(player === "scissor" && computer === "rock"){
+                computerWin++;
+                currentWin.textContent = 'Computer Won!'
+                //return {computerWin, playerWin};
+            }else {
+                if(player !== computer){
+                    playerWin++;
+                    currentWin.textContent = 'Player Won!'
+                }
+                //return {computerWin, playerWin};
+            }
+            playerSelect.textContent = player;
+            playerSelect.style.marginLeft = '5px';
+            computerSelect.textContent = computer;
+            computerSelect.style.marginLeft = '5px';
+
+            count++;
+            console.log("count = " + count);
+            if(count === 5) {
+                var message = '';
+                if(computerWin === playerWin){
+                    message = 'Game Tie!!';
+                }else if(computerWin > playerWin){
+                    message = 'Computer Won!!';
+                }else {
+                    message = 'Player Won!!';
+                }
+                result.textContent = message;
+                result.style.color = 'blue';
+                result.style.position = 'absolute';
+                result.style.left = '40%';
+                computerWin = 0;
+                playerWin = 0;
+                count = 0;
+                playerScore.textContent = parseInt(0, 10);
+                computerScore.textContent = parseInt(0, 10);
+                playerSelect.textContent = '';
+                computerSelect.textContent = '';
+                currentWin.textContent = '';
+
+            }
+            console.log("playerWin = " + playerWin);
+            console.log("computerWin = " + computerWin);
+            playerScore.textContent = parseInt(playerWin, 10);
+            computerScore.textContent = parseInt(computerWin, 10);
+        }
+
+        restart.addEventListener('click', restartGame);
+        function restartGame() {
+            result.textContent = '';
+        }
+        
+
+
+    </script>
+  </body>
+</html>
