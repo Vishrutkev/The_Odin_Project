@@ -1,4 +1,12 @@
 var grids = 0;
+let rainbowMode = false;
+
+const rainbowBtn = document.querySelector('.rainbow-button');
+rainbowBtn.addEventListener('click', rainbowToggle);
+
+function rainbowToggle(e) {
+    rainbowMode = !rainbowMode;
+}
 function create_grid(square) {
     const boxSize = 29; // Set the size of each box
     const containerSize = boxSize * square; // Calculate the size of the container based on the number of boxes
@@ -10,9 +18,20 @@ function create_grid(square) {
         for (var i = 0; i <= square * square; i++) {
             let newDiv = document.createElement('div');
             newDiv.className = 'box';
+            let colorRandomized = false;
             newDiv.addEventListener('mouseover', () => {
-                newDiv.classList.add('hovered'); // Toggle the 'hovered' class
-            });
+                if(rainbowMode){
+                    if (!colorRandomized) {
+                        // Randomize RGB values on the first hover
+                        let randomColor = getRandomColor();
+                        newDiv.style.backgroundColor = randomColor;
+                        colorRandomized = true; // Set the flag to true after randomizing once
+                      }
+                }else {
+                    newDiv.style.backgroundColor = 'black';
+                }
+                
+              });
             container.appendChild(newDiv);
           }
     const gridNumber = document.querySelector('.grid-number');
@@ -22,13 +41,21 @@ function create_grid(square) {
 
 create_grid(16);
 
+function getRandomColor() {
+    const randomRGB = () => Math.floor(Math.random() * 256);
+    const r = randomRGB();
+    const g = randomRGB();
+    const b = randomRGB();
+    return `rgb(${r},${g},${b})`;
+  }
+
 const button = document.querySelector('.button');
 button.addEventListener('click', buttonClicked);
 
 function buttonClicked(e) {
     let input = prompt('number of squares per side for the new grid (max 100): ');
     if(input <= 0) {
-        alert('Cmon are you that dumb!')
+        alert('Please Enter a positive Num!')
         input = prompt('number of squares per side for the new grid (max 100): ');
     }
     create_grid(input || 16);

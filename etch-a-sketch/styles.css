@@ -23,7 +23,6 @@ body {
 }
 
 
-
 .box {
     width: 27px;
     height: 27px;
@@ -37,8 +36,15 @@ body {
     background-color: lightblue; /* Change the color on hover */
 }
 
-.restart-button {
-    position: relative;
+.bottom-button {
+    display: flex;
+    gap: 30px;
+}
+
+.restart-button,
+.rainbow-button {
     padding: 5px 7px;
     margin-top: 10px;
 }
+
+
