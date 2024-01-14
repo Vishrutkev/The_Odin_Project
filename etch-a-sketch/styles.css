@@ -1,0 +1,44 @@
+body {
+    background-color: rgb(212, 198, 230);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0; 
+}
+
+.title {
+    display: flex;
+    gap: 30px;
+}
+
+.button {
+    height: 30px;
+    align-self: center;
+}
+
+#container {
+    overflow: hidden;
+}
+
+
+
+.box {
+    width: 27px;
+    height: 27px;
+    margin: 1px;
+    float: left;
+    background-color: white;
+    transition: background-color 0.3s;
+}
+
+.hovered {
+    background-color: lightblue; /* Change the color on hover */
+}
+
+.restart-button {
+    position: relative;
+    padding: 5px 7px;
+    margin-top: 10px;
+}
