@@ -1,20 +1,40 @@
 var grids = 0;
 let rainbowMode = false;
 let eraserMode = false;
+
+const blackBtn = document.querySelector('.normal-button');
+blackBtn.addEventListener('click', normalToggle);
+blackBtn.classList.add('clicked');
+
 const eraseBtn = document.querySelector('.eraser-button');
 eraseBtn.addEventListener('click', eraserToggle)
 
 const rainbowBtn = document.querySelector('.rainbow-button');
 rainbowBtn.addEventListener('click', rainbowToggle);
 
+function normalToggle(){
+    rainbowBtn.classList.remove('clicked');
+    eraseBtn.classList.remove('clicked');
+    rainbowMode = false;
+    eraserMode = false;
+    blackBtn.classList.add('clicked');
+}
+
 function eraserToggle(){
+    if(!eraserMode){
+        blackBtn.classList.add('clicked');
+    }
     eraserMode = !eraserMode;
+    
     rainbowMode = false;
     updateButtonStyles();
 }
 
 function rainbowToggle() {
     rainbowMode = !rainbowMode;
+    if(!rainbowMode){
+        blackBtn.classList.add('clicked');
+    }
     eraserMode = false;
     updateButtonStyles();
 }
@@ -49,6 +69,8 @@ function create_grid(square) {
         function handleMouseover(e) {
             if (e.buttons !== 1) return;
             if(eraserMode){
+                colorRandomized = false;
+                alpha[i] = 0.1;
                 newDiv.style.backgroundColor = 'rgb(255, 255, 255)';
             }else if (rainbowMode) {
                 if (!colorRandomized) {
