@@ -55,8 +55,6 @@
         }
 
         function playRound(player, computer) {
-            console.log("player = " +  player);
-            console.log("computer = " +  computer);
             if(player == computer){
                 //return {computerWin, playerWin};
                 currentWin.textContent = 'Tie!'
@@ -83,13 +81,15 @@
                 }
                 //return {computerWin, playerWin};
             }
+            currentWin.style.color = '#9109e0';
             playerSelect.textContent = player;
             playerSelect.style.marginLeft = '5px';
+            playerSelect.style.color = 'rgb(66, 176, 245)';
             computerSelect.textContent = computer;
             computerSelect.style.marginLeft = '5px';
+            computerSelect.style.color = 'rgb(66, 176, 245)';
 
             count++;
-            console.log("count = " + count);
             if(count === 5) {
                 var message = '';
                 if(computerWin === playerWin){
@@ -100,7 +100,7 @@
                     message = 'Player Won!!';
                 }
                 result.textContent = message;
-                result.style.color = 'blue';
+                result.style.color = '#11ed7b';
                 result.style.position = 'absolute';
                 result.style.left = '40%';
                 computerWin = 0;
@@ -113,8 +113,6 @@
                 currentWin.textContent = '';
 
             }
-            console.log("playerWin = " + playerWin);
-            console.log("computerWin = " + computerWin);
             playerScore.textContent = parseInt(playerWin, 10);
             computerScore.textContent = parseInt(computerWin, 10);
         }
@@ -122,9 +120,13 @@
         restart.addEventListener('click', restartGame);
         function restartGame() {
             result.textContent = '';
+            playerSelect.textContent = '';
+            computerSelect.textContent = '';
+            currentWin.textContent = '';
+            count = 0;
+            computerWin = 0;
+            playerWin = 0;
         }
-        
-
 
     </script>
   </body>
