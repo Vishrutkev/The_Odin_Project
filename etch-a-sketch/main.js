@@ -34,7 +34,6 @@ function create_grid(square) {
                     }
                     colorRandomized = true;
                 } else {
-                    console.log("second time");
                     let { darkenedColor, al } = darkenColor(originalColors[i], alpha[i]);
                     alpha[i] = al;
                     newDiv.style.backgroundColor = darkenedColor;
