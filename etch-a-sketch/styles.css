@@ -37,7 +37,7 @@ h1 {
 }
 
 .hovered {
-    background-color: lightblue; /* Change the color on hover */
+    background-color: lightblue;
 }
 
 .bottom-button {
@@ -46,7 +46,7 @@ h1 {
 }
 
 .clicked {
-    background-color: #4caf50; /* Green color (you can customize this) */
+    background-color: #4caf50; 
     color: white;
 }
 
