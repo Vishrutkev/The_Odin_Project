@@ -11,6 +11,7 @@
     <div class="background-image">
         <div class="scoreTracker">
             <h2 >Player Win: <span id="playerScore">0</span></h2>
+            <h2 >Current Round: <span id="currentRound">0</span></h2>
             <h2 >Computer Win: <span id="computerScore">0</span></h2>
         </div>
         <div class="currentSelect">
@@ -88,6 +89,7 @@
             computerSelect.textContent = computer;
             computerSelect.style.marginLeft = '5px';
             computerSelect.style.color = 'rgb(66, 176, 245)';
+            
 
             count++;
             if(count === 5) {
@@ -106,15 +108,17 @@
                 computerWin = 0;
                 playerWin = 0;
                 count = 0;
-                playerScore.textContent = parseInt(0, 10);
-                computerScore.textContent = parseInt(0, 10);
                 playerSelect.textContent = '';
                 computerSelect.textContent = '';
                 currentWin.textContent = '';
-
             }
             playerScore.textContent = parseInt(playerWin, 10);
+            playerScore.style.color = '#07f54b';
             computerScore.textContent = parseInt(computerWin, 10);
+            computerScore.style.color = '#07f54b';
+            let currentCount = count;
+            currentRound.textContent = parseInt(currentCount, 10);
+            currentRound.style.color = '#cdf211';
         }
 
         restart.addEventListener('click', restartGame);
@@ -123,6 +127,7 @@
             playerSelect.textContent = '';
             computerSelect.textContent = '';
             currentWin.textContent = '';
+            currentRound.textContent = 0;
             count = 0;
             computerWin = 0;
             playerWin = 0;
