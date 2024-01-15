@@ -8,32 +8,46 @@ function rainbowToggle(e) {
     rainbowMode = !rainbowMode;
 }
 function create_grid(square) {
-    const boxSize = 29; // Set the size of each box
-    const containerSize = boxSize * square; // Calculate the size of the container based on the number of boxes
+    const boxSize = 29;
+    const containerSize = boxSize * square;
     const containerId = document.getElementById('container');
     containerId.style.width = `${containerSize}px`;
     containerId.style.height = `${containerSize}px`;
+    let originalColors = {};
+    var alpha = {};
     const container = document.getElementById('container');
     container.innerHTML = '';
-        for (var i = 0; i <= square * square; i++) {
-            let newDiv = document.createElement('div');
-            newDiv.className = 'box';
-            let colorRandomized = false;
-            newDiv.addEventListener('mouseover', () => {
-                if(rainbowMode){
-                    if (!colorRandomized) {
-                        // Randomize RGB values on the first hover
-                        let randomColor = getRandomColor();
-                        newDiv.style.backgroundColor = randomColor;
-                        colorRandomized = true; // Set the flag to true after randomizing once
-                      }
-                }else {
-                    newDiv.style.backgroundColor = 'black';
+    for (let i = 0; i <= square * square; i++) {
+        let newDiv = document.createElement('div');
+        newDiv.className = 'box';
+        let colorRandomized = false;
+
+        function handleMouseover() {
+            if (rainbowMode) {
+                if (!colorRandomized) {
+                    // Randomize RGB values on the first hover
+                    let randomColor = getRandomColor();
+                    newDiv.style.backgroundColor = randomColor;
+                    originalColors[i] = randomColor;
+                    if (!alpha[i]) {
+                        alpha[i] = 0.1;
+                    }
+                    colorRandomized = true;
+                } else {
+                    console.log("second time");
+                    let { darkenedColor, al } = darkenColor(originalColors[i], alpha[i]);
+                    alpha[i] = al;
+                    newDiv.style.backgroundColor = darkenedColor;
                 }
-                
-              });
-            container.appendChild(newDiv);
-          }
+            } else {
+                newDiv.style.backgroundColor = 'black';
+            }
+        }
+
+        newDiv.addEventListener('mouseover', handleMouseover);
+        container.appendChild(newDiv);
+    }
+
     const gridNumber = document.querySelector('.grid-number');
     gridNumber.textContent = ` (${square})`;
     grids = square;
@@ -46,7 +60,7 @@ function getRandomColor() {
     const r = randomRGB();
     const g = randomRGB();
     const b = randomRGB();
-    return `rgb(${r},${g},${b})`;
+    return `rgb(${r},${g},${b}, 0.1)`;
   }
 
 const button = document.querySelector('.button');
@@ -61,6 +75,13 @@ function buttonClicked(e) {
     create_grid(input || 16);
 }
 
+function darkenColor(color, alph) {
+    let [r, g, b] = color.match(/\d+/g);
+    let al = alph + 0.1;
+    let darkenedColor = `rgba(${r},${g},${b}, ${al})`;
+    return {darkenedColor, al};
+}
+  
 const restart_btn = document.querySelector('.restart-button');
 restart_btn.addEventListener('click', restartGrid);
 
