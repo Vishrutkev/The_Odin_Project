@@ -8,7 +8,7 @@ function rainbowToggle(e) {
     rainbowMode = !rainbowMode;
 }
 function create_grid(square) {
-    const boxSize = 29;
+    const boxSize = 27;
     const containerSize = boxSize * square;
     const containerId = document.getElementById('container');
     containerId.style.width = `${containerSize}px`;
@@ -22,7 +22,8 @@ function create_grid(square) {
         newDiv.className = 'box';
         let colorRandomized = false;
 
-        function handleMouseover() {
+        function handleMouseover(e) {
+            if (e.buttons !== 1) return;
             if (rainbowMode) {
                 if (!colorRandomized) {
                     // Randomize RGB values on the first hover
@@ -42,8 +43,8 @@ function create_grid(square) {
                 newDiv.style.backgroundColor = 'black';
             }
         }
-
         newDiv.addEventListener('mouseover', handleMouseover);
+        newDiv.addEventListener('mousedown', handleMouseover);
         container.appendChild(newDiv);
     }
 
