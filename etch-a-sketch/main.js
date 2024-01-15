@@ -1,11 +1,35 @@
 var grids = 0;
 let rainbowMode = false;
+let eraserMode = false;
+const eraseBtn = document.querySelector('.eraser-button');
+eraseBtn.addEventListener('click', eraserToggle)
 
 const rainbowBtn = document.querySelector('.rainbow-button');
 rainbowBtn.addEventListener('click', rainbowToggle);
 
-function rainbowToggle(e) {
+function eraserToggle(){
+    eraserMode = !eraserMode;
+    rainbowMode = false;
+    updateButtonStyles();
+}
+
+function rainbowToggle() {
     rainbowMode = !rainbowMode;
+    eraserMode = false;
+    updateButtonStyles();
+}
+
+function updateButtonStyles() {
+    // Remove the 'clicked' class from all buttons
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(button => button.classList.remove('clicked'));
+
+    // Add the 'clicked' class to the currently active button
+    if (rainbowMode) {
+        rainbowBtn.classList.toggle('clicked');
+    } else if (eraserMode) {
+        eraseBtn.classList.toggle('clicked');
+    }
 }
 function create_grid(square) {
     const boxSize = 27;
@@ -24,7 +48,9 @@ function create_grid(square) {
 
         function handleMouseover(e) {
             if (e.buttons !== 1) return;
-            if (rainbowMode) {
+            if(eraserMode){
+                newDiv.style.backgroundColor = 'rgb(255, 255, 255)';
+            }else if (rainbowMode) {
                 if (!colorRandomized) {
                     // Randomize RGB values on the first hover
                     let randomColor = getRandomColor();
