@@ -96,7 +96,7 @@ function create_grid(square) {
     }
 
     const gridNumber = document.querySelector('.grid-number');
-    gridNumber.textContent = ` (${square})`;
+    gridNumber.textContent = ` (${square} x ${square})`;
     grids = square;
 }
 
