@@ -25,7 +25,6 @@ function eraserToggle(){
         blackBtn.classList.add('clicked');
     }
     eraserMode = !eraserMode;
-    
     rainbowMode = false;
     updateButtonStyles();
 }
@@ -136,6 +135,11 @@ restart_btn.addEventListener('click', restartGrid);
 function restartGrid(e) {
     const container = document.getElementById('container');
     container.innerHTML = '';
+    if(eraserMode) {
+        eraserMode = !eraserMode;
+        eraseBtn.classList.remove('clicked');
+        blackBtn.classList.add('clicked');
+    }
     create_grid(grids);
 }
 
