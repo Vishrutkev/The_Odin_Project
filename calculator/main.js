@@ -123,7 +123,7 @@ document.querySelector(".calculator-container").addEventListener("click", functi
     if (keyType === "percentage") {
         handlePercentageKey();
     }else if (keyType === "number") {
-      if(display.textContent == 0){
+      if(display.textContent == 0 && !dotAdded){
             display.textContent = clickedKey.textContent;
             handleNumberKey(clickedKey.textContent);
       }else {
@@ -138,9 +138,6 @@ document.querySelector(".calculator-container").addEventListener("click", functi
     } else if (keyType === "operator") {
         handleOperatorKey(clickedKey.textContent);
     } else if (keyType === "result") {
-        console.log("firstKey = " + firstKey);
-        console.log("secondKey = " + secondKey);
-        console.log("dis = " + operator);
         handleResultKey();
       }
   });
@@ -155,9 +152,6 @@ document.querySelector(".calculator-container").addEventListener("click", functi
     } 
     
     else if (firstKey != '' && secondKey != '' && operator != ""){
-        console.log("firstKey = " + firstKey);
-        console.log("secondKey = " + secondKey);
-        console.log("dis = " + operator);
         secondKey = parseFloat(secondKey) / 100;
         switch (operator) {
             case "+":
@@ -176,7 +170,6 @@ document.querySelector(".calculator-container").addEventListener("click", functi
               return "Invalid operator";
           }
           inPer = true;
-          console.log(result);
     }
         
     if(!inPer) {
@@ -232,13 +225,9 @@ document.querySelector(".calculator-container").addEventListener("click", functi
   }
   
   function handleResultKey() {
-        console.log("firstKey = " + firstKey);
-        console.log("secondKey = " + secondKey);
-        console.log("dis = " + operator);
     if (firstKey !== "" && operator !== "" && secondKey !== "") {
       // Perform the calculation and display the result
       result = calculateResult();
-      console.log("result = " + result);
       if (result > 9999999999999999999n){
             display.style.fontSize = '35px';
       } else if (result > 999999999999999) {
@@ -263,24 +252,29 @@ document.querySelector(".calculator-container").addEventListener("click", functi
 
   function formatNumber(number) {
     const roundedNumber = roundUp(number, 10);
-    return roundedNumber.toLocaleString(undefined, { maximumFractionDigits: 10 });
-  }
+    const formattedNumber = roundedNumber.toLocaleString(undefined, { maximumFractionDigits: 10 });
+    return removeTrailingZeros(formattedNumber);
+}
 
   function roundUp(number, decimalPlaces) {
-    const factor = Math.pow(10, decimalPlaces);
-    const roundedNumber = Math.ceil(number * factor) / factor;
+      const factor = Math.pow(10, decimalPlaces);
+      const roundedNumber = Math.ceil(number * factor) / factor;
 
-    // Ensure the total number of digits (including decimal) is at most 10
-    const numberString = roundedNumber.toString();
-    const totalDigits = numberString.length;
+      // Ensure the total number of digits (including decimal) is at most 10
+      const numberString = roundedNumber.toString();
+      const totalDigits = numberString.length;
 
-    if (totalDigits > 11) {
-        const integerDigits = numberString.split('.')[0].length;
-        const decimalDigits = Math.max(0, 10 - integerDigits);
-        return roundedNumber.toFixed(decimalDigits);
-    }
+      if (totalDigits > 11) {
+          const integerDigits = numberString.split('.')[0].length;
+          const decimalDigits = Math.max(0, 10 - integerDigits);
+          return roundedNumber.toFixed(decimalDigits);
+      }
 
-    return roundedNumber;
+      return roundedNumber;
+  }
+
+  function removeTrailingZeros(numberString) {
+      return numberString.replace(/\.?0+$/, '');
   }
 
   function calculateResult() {
