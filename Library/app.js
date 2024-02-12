@@ -45,7 +45,6 @@ save_btn.addEventListener('click', (e) => {
     const isRead = document.getElementById('isRead').checked;
     const newBook = new Book(bookName, authorName, numOfPages, isRead);
     addBookToLibrary(newBook);
-    update_collection();
     bookForm.reset();
     form_container.classList.add('hidden');
     add_book.style.display = 'block';
@@ -74,7 +73,7 @@ function generateBookOptions() {
     const collection_options = document.getElementById('collection-options');
     const read_options = document.getElementById('read-options');
     const not_read_options = document.getElementById('not-read-options');
-    collection_options.innerHTML = ''; // Clear previous options
+    collection_options.innerHTML = '';
     read_options.innerHTML = '';
     not_read_options.innerHTML = '';
     
@@ -96,6 +95,7 @@ function generateBookOptions() {
         collection_options.appendChild(option.cloneNode(true));
         index++;
       });
+      update_collection();
   }
 
   function displayBooks() {
@@ -111,13 +111,13 @@ function generateBookOptions() {
         const bookDetails = `
           <img src="images/book-cover${idx}.jpg" alt="Book Cover">
           <div class="book-info">
-            <h3>${book.name}</h3>
+            <h4>${book.name}</h4>
             <p>Author: ${book.author}</p>
             <p>Pages: ${book.numOfPages}</p>
           </div>
           <div class="card-bottom">
             <div id="checkbox-container">
-                <input type="checkbox" id="isRead" name="agree" ${book.isRead ? 'checked' : ''}>
+                <input type="checkbox" class="isRead" name="agree" ${book.isRead ? 'checked' : ''}>
                 <label class="read-label"for="isRead">Read</label>
             </div>
             <button class="delete-btn">Delete</button>
@@ -125,13 +125,34 @@ function generateBookOptions() {
         `;
         idx++;
         bookCard.innerHTML = bookDetails;
+
         mainContent.appendChild(bookCard);
+
+        const delete_btn = bookCard.querySelector('.delete-btn');
+        delete_btn.addEventListener('click', () => {
+            const bookInfo = bookCard.querySelector('.book-info');
+            const bookNameElement = bookInfo.querySelector('h4');
+            const bookIndex = myLibrary.findIndex(book => book.name === bookNameElement.textContent);
+            myLibrary.splice(bookIndex, 1);
+            displayBooks();
+            generateBookOptions();
+        })
+
+        const toggleRead = bookCard.querySelector('.isRead');
+        toggleRead.addEventListener('change',  () => {
+            const bookInfo = bookCard.querySelector('.book-info');
+            const bookNameElement = bookInfo.querySelector('h4');
+            let bookToUpdate = myLibrary.find(book => book.name == bookNameElement.textContent);
+            console.log(bookToUpdate);
+            if(bookToUpdate){
+                bookToUpdate.isRead = !bookToUpdate.isRead;
+            }
+            generateBookOptions();
+        })
       });
     }
 
-    function deleteBook() {
-        
-    }
+
 
   
 
