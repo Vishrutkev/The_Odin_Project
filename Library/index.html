@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library</title>
+    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Library</h1>
+            <button id="add-book" class="add-book-btn">Add Book</button>
+        </div>
+        <div class="sidebar">
+            <div class="collection-dropdown">
+                <div class="dropdown-btn">Collection (<span class="total-collection">0</span>)<span class="arrow"></span></div>
+                <div class="dropdown-content" id="collection-options">
+  
+                </div>
+            </div>
+            <div class="read-dropdown">
+                <div class="dropdown-btn">Read (<span class="total-read">0</span>)<span class="arrow"></span></div>
+                <div class="dropdown-content" id="read-options">
+
+                </div>
+            </div>
+            <div class="not-read-dropdown">
+                <div class="dropdown-btn">Not Read Yet (<span class="total-not-read">0</span>)<span class="arrow"></span></div>
+                <div class="dropdown-content" id="not-read-options">
+
+                </div>
+            </div>
+        </div>
+        <div id="bookForm-container" class="hidden">
+            <h2>New Book</h2>
+            <button id="closeFormButton">&#215;</button>
+            <form id="addBookForm">
+              <div class="form-group">
+                <label for="bookName">Book Name:</label>
+                <input type="text" id="bookName" name="bookName" required>
+              </div>
+              <div class="form-group">
+                <label for="authorName">Author Name:</label>
+                <input type="text" id="authorName" name="authorName" required>
+              </div>
+              <div class="form-group">
+                <label for="numOfPages">Number of Pages:</label>
+                <input type="number" id="numOfPages" name="numOfPages" required>
+              </div>
+              <div id="checkbox">
+                <input type="checkbox" id="isRead" name="agree">
+                <label for="isRead">Did you Read this book?</label>
+              </div>
+              <button type="submit" id="save-btn">Save</button>
+            </form>
+          </div>
+        <div class="main-content" id="main-content">
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <script src="app.js"></script>
+</body>
+</html>
