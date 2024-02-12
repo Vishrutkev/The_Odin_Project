@@ -56,7 +56,6 @@
     display: flex;
     min-width: max-content;
     flex-direction: column;
-    border-right: 1px solid black;
     gap: 1.8rem;
     font-weight: 600;
     font-size: 1.2rem;
@@ -213,9 +212,10 @@
   .main-content {
     padding: 2rem;
     display: grid;
+    border-left: 1px solid black;
     grid-area: main-content;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
-    grid-auto-rows: 22.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(332.5px, 0.5fr)); 
+    grid-auto-rows: 22rem;
     grid-gap: 1rem;
 }
   
@@ -240,7 +240,7 @@
   }
   
   .book-info {
-    padding: 20px;
+    padding: 10px 20px;
     overflow: hidden; 
     word-wrap: break-word;
   }

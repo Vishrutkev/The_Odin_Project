@@ -84,8 +84,9 @@ function generateBookOptions() {
         const option = document.createElement('a');
         option.href = '#';
         option.textContent = book.name;
-        option.style.backgroundColor = colors[index % colors.length];
-        
+        //option.style.backgroundColor = colors[index % colors.length];
+        option.style.borderBottom = '1px dashed lightgray';
+
         if (book.isRead) {
           read_options.appendChild(option);
         } else {
