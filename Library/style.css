@@ -214,8 +214,8 @@
     display: grid;
     border-left: 1px solid black;
     grid-area: main-content;
-    grid-template-columns: repeat(auto-fill, minmax(332.5px, 0.5fr)); 
-    grid-auto-rows: 22rem;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 0.45fr)); 
+    grid-auto-rows: 22.5rem;
     grid-gap: 1rem;
 }
   
