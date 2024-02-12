@@ -143,7 +143,6 @@ function generateBookOptions() {
             const bookInfo = bookCard.querySelector('.book-info');
             const bookNameElement = bookInfo.querySelector('h4');
             let bookToUpdate = myLibrary.find(book => book.name == bookNameElement.textContent);
-            console.log(bookToUpdate);
             if(bookToUpdate){
                 bookToUpdate.isRead = !bookToUpdate.isRead;
             }
