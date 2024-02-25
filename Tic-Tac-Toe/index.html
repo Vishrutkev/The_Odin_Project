@@ -7,21 +7,36 @@
     <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-    <div class="who-won"></div>
-    <h1>Tic Tac Toe</h1>
-    <span class=reload>&#x21bb;</span>
-    <div class="tic-tac-toe">
-        <div class="cell" data-row="0" data-col="0"></div> 
-        <div class="cell" data-row="0" data-col="1"></div> 
-        <div class="cell" data-row="0" data-col="2"></div> 
-        <div class="cell" data-row="1" data-col="0"></div> 
-        <div class="cell" data-row="1" data-col="1"></div> 
-        <div class="cell" data-row="1" data-col="2"></div> 
-        <div class="cell" data-row="2" data-col="0"></div>
-        <div class="cell" data-row="2" data-col="1"></div>
-        <div class="cell" data-row="2" data-col="2"></div>
+    <div class="container">
+        <form class="selection">
+            <label>
+                <input type="radio" name="gameMode" value="playerVsPlayer" checked>
+                Player vs. Player
+            </label>
+            <label>
+                <input type="radio" name="gameMode" value="playerVsBot">
+                Player vs. Bot
+            </label>
+        </form>
+        <div>
+            <div class="who-won"></div>
+            <h1>Tic Tac Toe</h1>
+            <span class=reload>&#x21bb;</span>
+            <div class="tic-tac-toe">
+                <div class="cell" data-row="0" data-col="0"></div>
+                <div class="cell" data-row="0" data-col="1"></div>
+                <div class="cell" data-row="0" data-col="2"></div>
+                <div class="cell" data-row="1" data-col="0"></div>
+                <div class="cell" data-row="1" data-col="1"></div>
+                <div class="cell" data-row="1" data-col="2"></div>
+                <div class="cell" data-row="2" data-col="0"></div>
+                <div class="cell" data-row="2" data-col="1"></div>
+                <div class="cell" data-row="2" data-col="2"></div>
+            </div>
+            <p class="note">Note: Player X always starts first</p>
+        </div>
+        
     </div>
-    <p>Note: PLayerX always starts first</p>
     <script src="script.js">
         
     </script>
