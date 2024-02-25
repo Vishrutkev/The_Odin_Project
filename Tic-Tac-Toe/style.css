@@ -15,12 +15,14 @@ body {
 h1 {
   font-size: 50px;
   margin-bottom: 3rem;
+  margin-top: 3.5rem;
   text-align: center;
 }
 
 h2 {
   margin: 0;
   display: flex;
+  font-size: 1.7rem;
   margin-bottom: 1rem;
 }
 
@@ -52,14 +54,18 @@ p {
   cursor: pointer;
 }
 
+.reload:hover {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
 .tic-tac-toe {
   background: linear-gradient(135deg, #d979ef, #ffb6c1, #87ceeb);
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;
   grid-template-columns: 1fr 1fr 1fr;
   border-radius: 50px;
-  width: 400px;
-  height: 400px;
+  width: 450px;
+  height: 450px;
   overflow: hidden;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
@@ -72,28 +78,46 @@ p {
   background-color: #eee;
   color: green;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+}
+
+.animateCell {
+  animation-name: animateCell;
+  animation-duration: 0.4s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes animateCell {
+  0% {
+    font-size: 0;
+  }
+  60% {
+    font-size: 6.5em;
+  }
+  100% {
+    font-size: 4em;
+  }
 }
 
 .who-won {
   position: absolute;
-  top: 3rem;
+  top: 2rem;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 2rem;
+  text-align: center;
+  font-size: 2.2rem;
   color: green;
 }
 
 .cell:nth-child(3n + 1) {
-  border-right: 3px double #333;
+  border-right: 3px double gray;
 }
 
 .cell:nth-child(-n + 6) {
-  border-bottom: 3px double #333;
+  border-bottom: 3px double gray;
 }
 
 .cell:nth-child(3n) {
-  border-left: 3px double #333;
+  border-left: 3px double gray;
 }
 
 .cell:hover {
@@ -114,9 +138,10 @@ p {
 .selection {
   position: relative;
   display: flex;
+  margin-left: 2rem;
   flex-direction: column;
   gap: 2rem;
-  margin-top: 12rem;
+  margin-top: 14rem;
 }
 
 .selection-note {
@@ -171,9 +196,11 @@ p {
 
 .playerx {
   color: rgb(239, 79, 58);
+  font-size: 1.2rem;
   margin-bottom: 1.5rem;
 }
 
 .playero {
   color: rgb(115, 0, 255);
+  font-size: 1.2rem;
 }

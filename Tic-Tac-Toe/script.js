@@ -52,7 +52,7 @@ function GameBoard() {
     },
     resetFrontEnd: function () {
       cells.forEach((cell) => {
-        cell.classList.remove("disabled");
+        cell.classList.remove("disabled", "animateCell");
         cell.textContent = "";
         cell.style.color = "black";
         cell.style.fontSize = "3em";
@@ -164,7 +164,6 @@ function checkWin(gameBoard, board) {
     winningPositions.forEach(([row, col]) => {
       const { winCells } = Selectors(row, col);
       winCells.style.color = "darkgreen";
-      winCells.style.fontSize = "3.5rem";
     });
     cells.forEach((cell) => {
       cell.classList.add("disabled");
@@ -226,8 +225,9 @@ function renderWins(gameBoard) {
         const column = (index % gridSize) + 1;
         gameBoard.updateGameBoard(gameBoard.currentPlayer, row, column);
         cell.classList.add(gameBoard.currentPlayer.toLowerCase());
-        cell.classList.add("disabled");
         cell.textContent = gameBoard.currentPlayer;
+        cell.classList.add("animateCell");
+        cell.classList.add("disabled");
         if (gameBoard.currentPlayer === "X") {
           cell.style.color = "rgb(239, 79, 58)";
           gameBoard.currentPlayer = "O";
