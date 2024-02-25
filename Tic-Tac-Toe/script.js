@@ -1,5 +1,3 @@
-const selectors = Selectors();
-
 function createEmptyBoard(rows, columns) {
   const board = [];
   for (let i = 0; i < rows; i++) {
@@ -33,7 +31,7 @@ function GameBoard() {
         cell.classList.remove("disabled");
         cell.textContent = "";
         cell.style.color = "black";
-        cell.style.fontSize = "2em";
+        cell.style.fontSize = "3em";
       });
     },
     setEmptyBoard: function () {
@@ -119,29 +117,6 @@ function checkWinner(board) {
   return null;
 }
 
-function PrintXO() {
-  const { cells } = Selectors();
-  const gridSize = 3;
-  const gameBoard = GameBoard();
-
-  cells.forEach((cell, index) => {
-    cell.addEventListener("click", () => {
-      if (!cell.classList.contains("disabled")) {
-        const row = Math.floor(index / gridSize) + 1;
-        const column = (index % gridSize) + 1;
-        gameBoard.updateGameBoard(gameBoard.currentPlayer, row, column);
-        cell.classList.add(gameBoard.currentPlayer.toLowerCase());
-        cell.classList.add("disabled");
-        cell.textContent = gameBoard.currentPlayer;
-        gameBoard.currentPlayer = gameBoard.currentPlayer === "X" ? "O" : "X";
-      }
-      checkWin(gameBoard, gameBoard.getBoard());
-    });
-  });
-
-  Reload(gameBoard);
-}
-
 function checkWin(gameBoard, board) {
   const { cells, whoWon } = Selectors();
   let winningPositions = checkWinner(board);
@@ -153,7 +128,7 @@ function checkWin(gameBoard, board) {
     winningPositions.forEach(([row, col]) => {
       const { winCells } = Selectors(row, col);
       winCells.style.color = "purple";
-      winCells.style.fontSize = "40px";
+      winCells.style.fontSize = "3.5rem";
     });
     cells.forEach((cell) => {
       cell.classList.add("disabled");
@@ -185,4 +160,25 @@ function Selectors(row, col) {
   return { cells, reload, winCells, whoWon };
 }
 
-PrintXO();
+(function renderXO() {
+  const { cells } = Selectors();
+  const gridSize = 3;
+  const gameBoard = GameBoard();
+
+  cells.forEach((cell, index) => {
+    cell.addEventListener("click", () => {
+      if (!cell.classList.contains("disabled")) {
+        const row = Math.floor(index / gridSize) + 1;
+        const column = (index % gridSize) + 1;
+        gameBoard.updateGameBoard(gameBoard.currentPlayer, row, column);
+        cell.classList.add(gameBoard.currentPlayer.toLowerCase());
+        cell.classList.add("disabled");
+        cell.textContent = gameBoard.currentPlayer;
+        gameBoard.currentPlayer = gameBoard.currentPlayer === "X" ? "O" : "X";
+      }
+      checkWin(gameBoard, gameBoard.getBoard());
+    });
+  });
+
+  Reload(gameBoard);
+})();

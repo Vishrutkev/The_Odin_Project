@@ -59,7 +59,7 @@ h1 {
   left: 50%;
   transform: translateX(-50%);
   font-size: 2rem;
-  color: rgb(36, 36, 160);
+  color: rgba(170, 0, 255, 0.966);
 }
 
 .cell:nth-child(3n + 1) {
@@ -83,7 +83,9 @@ h1 {
 }
 
 .note {
-  color: grey;
+  color: black;
+  opacity: 0.4;
+  margin-top: 1.5rem;
   text-align: center;
 }
 
@@ -94,8 +96,14 @@ h1 {
   font-size: larger;
   gap: 2rem;
   left: 7rem;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 30%;
+}
+
+.selection-note {
+  color: black;
+  opacity: 0.4;
+  font-size: 1rem;
+  margin-top: -10px;
 }
 
 @media screen and (max-width: 965px) {
