@@ -77,7 +77,7 @@ function GameBoard() {
   };
 }
 
-function checkWinner(board) {
+function getWinnersPosition(board) {
   // Check rows
   for (let i = 0; i < board.length; i++) {
     if (
@@ -155,8 +155,7 @@ function checkWinner(board) {
 
 function checkWin(gameBoard, board) {
   const { cells, whoWon } = Selectors();
-  let winningPositions = checkWinner(board);
-
+  let winningPositions = getWinnersPosition(board);
   if (winningPositions) {
     if (winningPositions === "tie") {
       whoWon.textContent = "It's a Tie";
@@ -181,15 +180,14 @@ function Reload(gameBoard) {
     gameBoard.resetFrontEnd();
     gameBoard.resetEverything();
     gameBoard.currentPlayer = "X";
-    gameBoard.numOfRound = 0;
+    gameBoard.numOfRound = 1;
     gameBoard.playerOWin = 0;
     gameBoard.playerXWin = 0;
   });
 }
 
 function renderWins(gameBoard) {
-  const { whoWon, roundCount, playeroWin, playerxWin, nextRoundBtn } =
-    Selectors();
+  const { whoWon, playeroWin, playerxWin, nextRoundBtn } = Selectors();
   let currentWinner = gameBoard.currentPlayer === "X" ? "O" : "X";
   if (currentWinner === "X") {
     gameBoard.playerXWin += 1;
