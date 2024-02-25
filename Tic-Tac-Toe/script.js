@@ -60,7 +60,7 @@ function GameBoard() {
       whoWon.textContent = "";
       board = createEmptyBoard(rows, columns);
       nextRoundBtn.disabled = false;
-      nextRoundBtn.style.cursor = "cursor";
+      nextRoundBtn.style.cursor = "pointer";
     },
     resetEverything: function () {
       roundCount.textContent = "(1)";
