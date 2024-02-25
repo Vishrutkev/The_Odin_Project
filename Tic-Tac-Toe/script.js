@@ -1,3 +1,26 @@
+function Selectors(row, col) {
+  const cells = document.querySelectorAll(".cell");
+  const reload = document.querySelector(".reload");
+  const winCells = document.querySelector(
+    `.cell[data-row="${row}"][data-col="${col}"]`
+  );
+  const whoWon = document.querySelector(".who-won");
+  const roundCount = document.querySelector(".round-count");
+  const playerxWin = document.querySelector(".player-x");
+  const playeroWin = document.querySelector(".player-o");
+  const nextRoundBtn = document.querySelector(".next-round-btn");
+  return {
+    cells,
+    reload,
+    winCells,
+    whoWon,
+    roundCount,
+    playerxWin,
+    playeroWin,
+    nextRoundBtn,
+  };
+}
+
 function createEmptyBoard(rows, columns) {
   const board = [];
   for (let i = 0; i < rows; i++) {
@@ -12,9 +35,13 @@ function createEmptyBoard(rows, columns) {
 function GameBoard() {
   const rows = 3;
   const columns = 3;
-  const { cells } = Selectors();
+  const { cells, whoWon, roundCount, playeroWin, playerxWin, nextRoundBtn } =
+    Selectors();
   let board = createEmptyBoard(rows, columns);
+  let numOfRound = 1;
   let currentPlayer = "X";
+  let playerXWin = 0;
+  let playerOWin = 0;
 
   return {
     getBoard: function () {
@@ -23,9 +50,6 @@ function GameBoard() {
     updateGameBoard: function (value, row, column) {
       board[row - 1][column - 1] = value;
     },
-    resetGameBoard: function () {
-      board = createEmptyBoard(rows, columns);
-    },
     resetFrontEnd: function () {
       cells.forEach((cell) => {
         cell.classList.remove("disabled");
@@ -33,11 +57,23 @@ function GameBoard() {
         cell.style.color = "black";
         cell.style.fontSize = "3em";
       });
+      whoWon.textContent = "";
+      board = createEmptyBoard(rows, columns);
+      nextRoundBtn.disabled = false;
+      nextRoundBtn.style.cursor = "cursor";
+    },
+    resetEverything: function () {
+      roundCount.textContent = "(1)";
+      playeroWin.textContent = " 0";
+      playerxWin.textContent = " 0";
     },
     setEmptyBoard: function () {
       board = createEmptyBoard(rows, columns);
     },
     currentPlayer: currentPlayer,
+    numOfRound: numOfRound,
+    playerOWin: playerOWin,
+    playerXWin: playerXWin,
   };
 }
 
@@ -120,6 +156,7 @@ function checkWinner(board) {
 function checkWin(gameBoard, board) {
   const { cells, whoWon } = Selectors();
   let winningPositions = checkWinner(board);
+
   if (winningPositions) {
     if (winningPositions === "tie") {
       whoWon.textContent = "It's a Tie";
@@ -127,41 +164,60 @@ function checkWin(gameBoard, board) {
     }
     winningPositions.forEach(([row, col]) => {
       const { winCells } = Selectors(row, col);
-      winCells.style.color = "purple";
+      winCells.style.color = "darkgreen";
       winCells.style.fontSize = "3.5rem";
     });
     cells.forEach((cell) => {
       cell.classList.add("disabled");
     });
     winningPositions = null;
-    whoWon.textContent = `Player ${
-      gameBoard.currentPlayer === "X" ? "O" : "X"
-    } Won`;
+    renderWins(gameBoard);
   }
 }
 
 function Reload(gameBoard) {
-  const { reload, whoWon } = Selectors();
+  const { reload } = Selectors();
   reload.addEventListener("click", () => {
     gameBoard.resetFrontEnd();
-    gameBoard.resetGameBoard();
+    gameBoard.resetEverything();
     gameBoard.currentPlayer = "X";
-    whoWon.textContent = "";
+    gameBoard.numOfRound = 0;
+    gameBoard.playerOWin = 0;
+    gameBoard.playerXWin = 0;
   });
 }
 
-function Selectors(row, col) {
-  const cells = document.querySelectorAll(".cell");
-  const reload = document.querySelector(".reload");
-  const winCells = document.querySelector(
-    `.cell[data-row="${row}"][data-col="${col}"]`
-  );
-  const whoWon = document.querySelector(".who-won");
-  return { cells, reload, winCells, whoWon };
+function renderWins(gameBoard) {
+  const { whoWon, roundCount, playeroWin, playerxWin, nextRoundBtn } =
+    Selectors();
+  let currentWinner = gameBoard.currentPlayer === "X" ? "O" : "X";
+  if (currentWinner === "X") {
+    gameBoard.playerXWin += 1;
+    playerxWin.textContent = " " + gameBoard.playerXWin;
+  } else {
+    gameBoard.playerOWin += 1;
+    playeroWin.textContent = " " + gameBoard.playerOWin;
+  }
+  if (gameBoard.numOfRound < 5) {
+    whoWon.textContent = `Player ${currentWinner} Won this Round`;
+  } else {
+    console.log("X = " + gameBoard.playerXWin);
+    console.log("O = " + gameBoard.playerOWin);
+    whoWon.textContent =
+      gameBoard.playerXWin > gameBoard.playerOWin
+        ? `Player X Won the Game (${gameBoard.playerXWin} out of 5)`
+        : gameBoard.playerXWin < gameBoard.playerOWin
+        ? `Player O Won the Game (${gameBoard.playerOWin} out of 5)`
+        : gameBoard.playerXWin === gameBoard.playerOWin
+        ? `Game is a Tie`
+        : "";
+    nextRoundBtn.disabled = true;
+    nextRoundBtn.style.cursor = "not-allowed";
+  }
 }
 
 (function renderXO() {
-  const { cells } = Selectors();
+  const { cells, nextRoundBtn, roundCount } = Selectors();
   const gridSize = 3;
   const gameBoard = GameBoard();
 
@@ -174,11 +230,22 @@ function Selectors(row, col) {
         cell.classList.add(gameBoard.currentPlayer.toLowerCase());
         cell.classList.add("disabled");
         cell.textContent = gameBoard.currentPlayer;
-        gameBoard.currentPlayer = gameBoard.currentPlayer === "X" ? "O" : "X";
+        if (gameBoard.currentPlayer === "X") {
+          cell.style.color = "rgb(239, 79, 58)";
+          gameBoard.currentPlayer = "O";
+        } else {
+          cell.style.color = "rgb(115, 0, 255)";
+          gameBoard.currentPlayer = "X";
+        }
       }
       checkWin(gameBoard, gameBoard.getBoard());
     });
   });
-
   Reload(gameBoard);
+  nextRoundBtn.addEventListener("click", () => {
+    gameBoard.resetFrontEnd();
+    gameBoard.currentPlayer = "X";
+    gameBoard.numOfRound += 1;
+    roundCount.textContent = `(${gameBoard.numOfRound})`;
+  });
 })();

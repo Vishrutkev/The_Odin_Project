@@ -18,8 +18,29 @@ h1 {
   text-align: center;
 }
 
+h2 {
+  margin: 0;
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+h3 {
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
 .winnerSymbol {
   color: blue;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 2rem;
+  grid-column-gap: 2rem;
 }
 
 .reload {
@@ -49,6 +70,7 @@ h1 {
   align-items: center;
   font-size: 3em;
   background-color: #eee;
+  color: green;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
@@ -59,7 +81,7 @@ h1 {
   left: 50%;
   transform: translateX(-50%);
   font-size: 2rem;
-  color: rgba(170, 0, 255, 0.966);
+  color: green;
 }
 
 .cell:nth-child(3n + 1) {
@@ -90,13 +112,11 @@ h1 {
 }
 
 .selection {
-  position: absolute;
+  position: relative;
   display: flex;
   flex-direction: column;
-  font-size: larger;
   gap: 2rem;
-  left: 7rem;
-  top: 30%;
+  margin-top: 12rem;
 }
 
 .selection-note {
@@ -106,14 +126,54 @@ h1 {
   margin-top: -10px;
 }
 
-@media screen and (max-width: 965px) {
-  .selection {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 2rem;
-  }
+.next-round-btn {
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-bottom: 2.5rem;
+  max-width: 9rem;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.next-round-btn:hover {
+  background-color: #45a049;
+}
+
+.score-board-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-top: 9rem;
+  margin-left: 6rem;
+}
+
+.round-note {
+  font-size: 13px;
+  font-weight: 100;
+  margin-top: 5px;
+  margin-left: 5px;
+  display: flex;
+  color: gray;
+}
+
+.round-count {
+  position: relative;
+  margin-left: 5px;
+}
+
+.playerx {
+  color: rgb(239, 79, 58);
+  margin-bottom: 1.5rem;
+}
+
+.playero {
+  color: rgb(115, 0, 255);
 }

@@ -17,7 +17,9 @@
           <input type="radio" name="gameMode" value="playerVsBot" />
           Player vs. Bot
         </label>
-        <p class="selection-note">Note: Changing this will reset the game</p>
+        <p class="selection-note">
+          Note: Changing the above will reset the game
+        </p>
       </form>
       <div>
         <div class="who-won"></div>
@@ -35,6 +37,16 @@
           <div class="cell" data-row="2" data-col="2"></div>
         </div>
         <p class="note">Note: Player X always starts first</p>
+      </div>
+      <div class="score-board-container">
+        <h2>
+          Round <span class="round-count">(1)</span
+          ><span class="round-note"> (Max Rounds 5)</span>
+        </h2>
+        <button class="next-round-btn">Next Round</button>
+        <h2>Score Board</h2>
+        <p class="playerx">Player (X) :<span class="player-x"> 0</span></p>
+        <p class="playero">Player (O) :<span class="player-o"> 0</span></p>
       </div>
     </div>
     <script src="script.js"></script>
