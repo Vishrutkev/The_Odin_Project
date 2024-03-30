@@ -9,6 +9,8 @@ function Selectors(row, col) {
   const playerxWin = document.querySelector(".player-x");
   const playeroWin = document.querySelector(".player-o");
   const nextRoundBtn = document.querySelector(".next-round-btn");
+  const radioButtons = document.querySelectorAll('input[name="gameMode"]');
+
   return {
     cells,
     reload,
@@ -18,6 +20,7 @@ function Selectors(row, col) {
     playerxWin,
     playeroWin,
     nextRoundBtn,
+    radioButtons,
   };
 }
 
@@ -35,8 +38,17 @@ function createEmptyBoard(rows, columns) {
 function GameBoard() {
   const rows = 3;
   const columns = 3;
-  const { cells, whoWon, roundCount, playeroWin, playerxWin, nextRoundBtn } =
-    Selectors();
+  const {
+    cells,
+    whoWon,
+    roundCount,
+    playeroWin,
+    playerxWin,
+    nextRoundBtn,
+    reload,
+    winCells,
+    radioButtons,
+  } = Selectors();
   let board = createEmptyBoard(rows, columns);
   let numOfRound = 1;
   let currentPlayer = "X";
@@ -74,6 +86,15 @@ function GameBoard() {
     numOfRound: numOfRound,
     playerOWin: playerOWin,
     playerXWin: playerXWin,
+    whoWon: whoWon,
+    cells: cells,
+    reload: reload,
+    winCells: winCells,
+    roundCount: roundCount,
+    playerxWin: playerxWin,
+    playeroWin: playeroWin,
+    nextRoundBtn: nextRoundBtn,
+    radioButtons: radioButtons,
   };
 }
 
@@ -154,18 +175,17 @@ function getWinnersPosition(board) {
 }
 
 function checkWin(gameBoard, board) {
-  const { cells, whoWon } = Selectors();
   let winningPositions = getWinnersPosition(board);
   if (winningPositions) {
     if (winningPositions === "tie") {
-      whoWon.textContent = "It's a Tie";
+      gameBoard.whoWon.textContent = "It's a Tie";
       return;
     }
     winningPositions.forEach(([row, col]) => {
       const { winCells } = Selectors(row, col);
       winCells.style.color = "darkgreen";
     });
-    cells.forEach((cell) => {
+    gameBoard.cells.forEach((cell) => {
       cell.classList.add("disabled");
     });
     winningPositions = null;
@@ -173,9 +193,8 @@ function checkWin(gameBoard, board) {
   }
 }
 
-function Reload(gameBoard) {
-  const { reload } = Selectors();
-  reload.addEventListener("click", () => {
+function Reload(gameBoard, target) {
+  target.addEventListener("click", () => {
     gameBoard.resetFrontEnd();
     gameBoard.resetEverything();
     gameBoard.currentPlayer = "X";
@@ -186,21 +205,18 @@ function Reload(gameBoard) {
 }
 
 function renderWins(gameBoard) {
-  const { whoWon, playeroWin, playerxWin, nextRoundBtn } = Selectors();
   let currentWinner = gameBoard.currentPlayer === "X" ? "O" : "X";
   if (currentWinner === "X") {
     gameBoard.playerXWin += 1;
-    playerxWin.textContent = " " + gameBoard.playerXWin;
+    gameBoard.playerxWin.textContent = " " + gameBoard.playerXWin;
   } else {
     gameBoard.playerOWin += 1;
-    playeroWin.textContent = " " + gameBoard.playerOWin;
+    gameBoard.playeroWin.textContent = " " + gameBoard.playerOWin;
   }
   if (gameBoard.numOfRound < 5) {
-    whoWon.textContent = `Player ${currentWinner} Won this Round`;
+    gameBoard.whoWon.textContent = `Player ${currentWinner} Won this Round`;
   } else {
-    console.log("X = " + gameBoard.playerXWin);
-    console.log("O = " + gameBoard.playerOWin);
-    whoWon.textContent =
+    gameBoard.whoWon.textContent =
       gameBoard.playerXWin > gameBoard.playerOWin
         ? `Player X Won the Game (${gameBoard.playerXWin} out of 5)`
         : gameBoard.playerXWin < gameBoard.playerOWin
@@ -208,17 +224,28 @@ function renderWins(gameBoard) {
         : gameBoard.playerXWin === gameBoard.playerOWin
         ? `Game is a Tie`
         : "";
-    nextRoundBtn.disabled = true;
-    nextRoundBtn.style.cursor = "not-allowed";
+    gameBoard.nextRoundBtn.disabled = true;
+    gameBoard.nextRoundBtn.style.cursor = "not-allowed";
   }
 }
 
 (function renderXO() {
-  const { cells, nextRoundBtn, roundCount } = Selectors();
   const gridSize = 3;
   const gameBoard = GameBoard();
+  let selectedGameMode = "playerVsPlayer";
 
-  cells.forEach((cell, index) => {
+  gameBoard.radioButtons.forEach(function (radioButton) {
+    Reload(gameBoard, radioButton);
+    radioButton.addEventListener("change", function () {
+      if (this.checked) {
+        selectedGameMode = this.value;
+        if (this.value === "playerVsBot") {
+        }
+      }
+    });
+  });
+
+  gameBoard.cells.forEach((cell, index) => {
     cell.addEventListener("click", () => {
       if (!cell.classList.contains("disabled")) {
         const row = Math.floor(index / gridSize) + 1;
@@ -230,6 +257,12 @@ function renderWins(gameBoard) {
         cell.classList.add("disabled");
         if (gameBoard.currentPlayer === "X") {
           cell.style.color = "rgb(239, 79, 58)";
+          if (selectedGameMode === "playerVsBot") {
+            // Call function to let the bot make its move after a short delay
+            setTimeout(() => {
+              botMove(gameBoard);
+            }, 100);
+          }
           gameBoard.currentPlayer = "O";
         } else {
           cell.style.color = "rgb(115, 0, 255)";
@@ -239,11 +272,29 @@ function renderWins(gameBoard) {
       checkWin(gameBoard, gameBoard.getBoard());
     });
   });
-  Reload(gameBoard);
-  nextRoundBtn.addEventListener("click", () => {
+
+  Reload(gameBoard, gameBoard.reload);
+  gameBoard.nextRoundBtn.addEventListener("click", () => {
     gameBoard.resetFrontEnd();
     gameBoard.currentPlayer = "X";
     gameBoard.numOfRound += 1;
-    roundCount.textContent = `(${gameBoard.numOfRound})`;
+    gameBoard.roundCount.textContent = `(${gameBoard.numOfRound})`;
   });
+
+  // Function to let the bot make its move
+  function botMove(gameBoard) {
+    // For a simple example, let's choose a random empty cell
+    const emptyCells = [...gameBoard.cells].filter(
+      (cell) => !cell.classList.contains("disabled")
+    );
+
+    if (emptyCells.length > 0) {
+      const randomIndex = Math.floor(Math.random() * emptyCells.length);
+      const randomCell = emptyCells[randomIndex];
+      randomCell.click(); // Simulate a click on the randomly chosen cell
+    } else {
+      // Handle the case when there are no empty cells available
+      console.log("No empty cells available for bot move!");
+    }
+  }
 })();
