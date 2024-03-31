@@ -510,6 +510,7 @@ const TicTacToeGame = (function () {
       updateGameBoard: function (value, row, column) {
         this.board[row - 1][column - 1] = value;
       },
+      // Two reset functions because next Round only reset the frontEnd and Reload resets both
       resetFrontEnd: function () {
         this.cells.forEach((cell) => {
           cell.classList.remove("disabled", "animateCell");
@@ -526,6 +527,20 @@ const TicTacToeGame = (function () {
         this.roundCount.textContent = "(1)";
         this.playeroWin.textContent = " 0";
         this.playerxWin.textContent = " 0";
+      },
+      // Function to let the bot make its move
+      botMove: function () {
+        const emptyCells = [...this.cells].filter(
+          (cell) => !cell.classList.contains("disabled")
+        );
+
+        if (emptyCells.length > 0) {
+          const randomIndex = Math.floor(Math.random() * emptyCells.length);
+          const randomCell = emptyCells[randomIndex];
+          randomCell.click();
+        } else {
+          console.log("No empty cells available for bot move!");
+        }
       },
     };
 
@@ -556,7 +571,7 @@ const TicTacToeGame = (function () {
             cell.style.color = "rgb(239, 79, 58)";
             if (selectedGameMode === "playerVsBot") {
               setTimeout(() => {
-                botMove(gameBoard);
+                gameBoard.botMove(gameBoard);
               }, 200);
             }
             gameBoard.currentPlayer = "O";
@@ -576,21 +591,6 @@ const TicTacToeGame = (function () {
       gameBoard.numOfRound += 1;
       gameBoard.roundCount.textContent = `(${gameBoard.numOfRound})`;
     });
-
-    // Function to let the bot make its move
-    function botMove(gameBoard) {
-      const emptyCells = [...gameBoard.cells].filter(
-        (cell) => !cell.classList.contains("disabled")
-      );
-
-      if (emptyCells.length > 0) {
-        const randomIndex = Math.floor(Math.random() * emptyCells.length);
-        const randomCell = emptyCells[randomIndex];
-        randomCell.click();
-      } else {
-        console.log("No empty cells available for bot move!");
-      }
-    }
   };
 })();
 
