@@ -118,6 +118,7 @@ const TicTacToeGame = (function () {
   // Function to check for a win or tie
   function checkWin(gameBoard, board) {
     let winningPositions = getWinnersPosition(board);
+    console.log(winningPositions);
     if (winningPositions) {
       if (winningPositions === "tie") {
         gameBoard.whoWon.textContent = "It's a Tie";
@@ -131,6 +132,7 @@ const TicTacToeGame = (function () {
         cell.classList.add("disabled");
       });
       winningPositions = null;
+      console.log("here");
       renderWins(gameBoard);
     }
   }
@@ -150,6 +152,7 @@ const TicTacToeGame = (function () {
   // Function to render win status
   function renderWins(gameBoard) {
     let currentWinner = gameBoard.currentPlayer === "X" ? "O" : "X";
+    console.log(gameBoard.playerXWin);
     if (currentWinner === "X") {
       gameBoard.playerXWin += 1;
       gameBoard.playerxWin.textContent = " " + gameBoard.playerXWin;
@@ -206,6 +209,25 @@ const TicTacToeGame = (function () {
       getBoard: function () {
         return JSON.parse(JSON.stringify(this.board));
       },
+      get2DBoard: function () {
+        const twoDboard = [];
+        const rows = 3;
+        const columns = 3;
+
+        // Populate the board with values from cells
+        let cellIndex = 0;
+        for (let i = 0; i < rows; i++) {
+          twoDboard[i] = []; // Create a new empty row
+          for (let j = 0; j < columns; j++) {
+            // Get the value from the corresponding cell
+            const cellValue = this.cells[cellIndex].textContent.trim();
+            twoDboard[i][j] = cellValue; // Add the value to the board
+            cellIndex++; // Move to the next cell
+          }
+        }
+
+        return twoDboard;
+      },
       updateGameBoard: function (value, row, column) {
         this.board[row - 1][column - 1] = value;
       },
@@ -228,7 +250,7 @@ const TicTacToeGame = (function () {
         this.playerxWin.textContent = " 0";
       },
       // Function to let the bot make its move
-      botMove: function () {
+      easyBotMove: function () {
         const emptyCells = [...this.cells].filter(
           (cell) => !cell.classList.contains("disabled")
         );
@@ -236,10 +258,58 @@ const TicTacToeGame = (function () {
         if (emptyCells.length > 0) {
           const randomIndex = Math.floor(Math.random() * emptyCells.length);
           const randomCell = emptyCells[randomIndex];
+          const row = parseInt(randomCell.dataset.row);
+          const col = parseInt(randomCell.dataset.col);
+
+          // Update the board with the bot's move
+          const board = this.get2DBoard();
+          board[row][col] = this.currentPlayer;
+
+          // Trigger a click on the selected cell
           randomCell.click();
         } else {
           console.log("No empty cells available for bot move!");
         }
+      },
+
+      hardBotMove: function () {
+        const emptyCells = [...this.cells].filter(
+          (cell) => !cell.classList.contains("disabled")
+        );
+        if (emptyCells.length > 0) {
+          let bestScore = -Infinity;
+          let move;
+          const board = this.get2DBoard(); // Get the current state of the board
+          for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+              if (board[i][j] == "") {
+                board[i][j] = "O"; // Simulate the bot's move
+                let score = this.minimax(board);
+                board[i][j] = ""; // Undo the move
+                if (score > bestScore) {
+                  bestScore = score;
+                  move = { i, j };
+                }
+              }
+            }
+          }
+          board[move.i][move.j] = this.currentPlayer;
+          let idx = 0;
+          if (move.i == 1) {
+            idx = move.i + move.j + 2;
+          } else if (move.i == 2) {
+            idx = move.i + move.j + 4;
+          } else {
+            idx = move.j;
+          }
+          this.cells[idx].click();
+        } else {
+          console.log("No empty cells available for bot move!");
+        }
+      },
+
+      minimax: function (board) {
+        return 1;
       },
     };
 
@@ -251,6 +321,7 @@ const TicTacToeGame = (function () {
         if (this.checked) {
           selectedGameMode = this.value;
           if (this.value === "playerVsBot") {
+            console.log(gameBoard.playerXWin);
           }
         }
       });
@@ -270,7 +341,7 @@ const TicTacToeGame = (function () {
             cell.style.color = "rgb(239, 79, 58)";
             if (selectedGameMode === "playerVsBot") {
               setTimeout(() => {
-                gameBoard.botMove(gameBoard);
+                gameBoard.hardBotMove();
               }, 200);
             }
             gameBoard.currentPlayer = "O";
