@@ -51,7 +51,7 @@ const TicTacToeGame = (function () {
           [i, 0],
           [i, 1],
           [i, 2],
-        ]; // Return winning cell positions
+        ];
       }
     }
 
@@ -66,7 +66,7 @@ const TicTacToeGame = (function () {
           [0, j],
           [1, j],
           [2, j],
-        ]; // Return winning cell positions
+        ];
       }
     }
 
@@ -80,7 +80,7 @@ const TicTacToeGame = (function () {
         [0, 0],
         [1, 1],
         [2, 2],
-      ]; // Return winning cell positions
+      ];
     }
     if (
       board[0][2] !== "" &&
@@ -91,7 +91,67 @@ const TicTacToeGame = (function () {
         [0, 2],
         [1, 1],
         [2, 0],
-      ]; // Return winning cell positions
+      ];
+    }
+
+    // Check if all cells are filled
+    let isBoardFull = true;
+    for (let i = 0; i < board.length; i++) {
+      for (let j = 0; j < board[i].length; j++) {
+        if (board[i][j] === "") {
+          isBoardFull = false;
+          break;
+        }
+      }
+      if (!isBoardFull) {
+        break;
+      }
+    }
+
+    if (isBoardFull) {
+      return "tie";
+    }
+    // If no winner is found
+    return null;
+  }
+
+  function checkWinner(board) {
+    // Check rows
+    for (let i = 0; i < board.length; i++) {
+      if (
+        board[i][0] !== "" &&
+        board[i][0] === board[i][1] &&
+        board[i][1] === board[i][2]
+      ) {
+        return board[i][0];
+      }
+    }
+
+    // Check columns
+    for (let j = 0; j < board[0].length; j++) {
+      if (
+        board[0][j] !== "" &&
+        board[0][j] === board[1][j] &&
+        board[1][j] === board[2][j]
+      ) {
+        return board[0][j];
+      }
+    }
+
+    // Check diagonals
+    if (
+      board[0][0] !== "" &&
+      board[0][0] === board[1][1] &&
+      board[1][1] === board[2][2]
+    ) {
+      return board[1][1];
+    }
+    if (
+      board[0][2] !== "" &&
+      board[0][2] === board[1][1] &&
+      board[1][1] === board[2][0]
+    ) {
+      return board[1][1];
     }
 
     // Check if all cells are filled
@@ -118,7 +178,6 @@ const TicTacToeGame = (function () {
   // Function to check for a win or tie
   function checkWin(gameBoard, board) {
     let winningPositions = getWinnersPosition(board);
-    console.log(winningPositions);
     if (winningPositions) {
       if (winningPositions === "tie") {
         gameBoard.whoWon.textContent = "It's a Tie";
@@ -132,7 +191,6 @@ const TicTacToeGame = (function () {
         cell.classList.add("disabled");
       });
       winningPositions = null;
-      console.log("here");
       renderWins(gameBoard);
     }
   }
@@ -152,7 +210,6 @@ const TicTacToeGame = (function () {
   // Function to render win status
   function renderWins(gameBoard) {
     let currentWinner = gameBoard.currentPlayer === "X" ? "O" : "X";
-    console.log(gameBoard.playerXWin);
     if (currentWinner === "X") {
       gameBoard.playerXWin += 1;
       gameBoard.playerxWin.textContent = " " + gameBoard.playerXWin;
@@ -209,25 +266,6 @@ const TicTacToeGame = (function () {
       getBoard: function () {
         return JSON.parse(JSON.stringify(this.board));
       },
-      get2DBoard: function () {
-        const twoDboard = [];
-        const rows = 3;
-        const columns = 3;
-
-        // Populate the board with values from cells
-        let cellIndex = 0;
-        for (let i = 0; i < rows; i++) {
-          twoDboard[i] = []; // Create a new empty row
-          for (let j = 0; j < columns; j++) {
-            // Get the value from the corresponding cell
-            const cellValue = this.cells[cellIndex].textContent.trim();
-            twoDboard[i][j] = cellValue; // Add the value to the board
-            cellIndex++; // Move to the next cell
-          }
-        }
-
-        return twoDboard;
-      },
       updateGameBoard: function (value, row, column) {
         this.board[row - 1][column - 1] = value;
       },
@@ -262,7 +300,7 @@ const TicTacToeGame = (function () {
           const col = parseInt(randomCell.dataset.col);
 
           // Update the board with the bot's move
-          const board = this.get2DBoard();
+          const board = this.getBoard();
           board[row][col] = this.currentPlayer;
 
           // Trigger a click on the selected cell
@@ -279,12 +317,12 @@ const TicTacToeGame = (function () {
         if (emptyCells.length > 0) {
           let bestScore = -Infinity;
           let move;
-          const board = this.get2DBoard(); // Get the current state of the board
+          const board = this.getBoard();
           for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
               if (board[i][j] == "") {
                 board[i][j] = "O"; // Simulate the bot's move
-                let score = this.minimax(board);
+                let score = this.minimax(board, 0, false);
                 board[i][j] = ""; // Undo the move
                 if (score > bestScore) {
                   bestScore = score;
@@ -308,8 +346,49 @@ const TicTacToeGame = (function () {
         }
       },
 
-      minimax: function (board) {
-        return 1;
+      minimax: function (board, depth, isMaximizing) {
+        let result = checkWinner(board);
+        if (result !== null) {
+          if (result === "X") {
+            return -10 + depth;
+          } else if (result === "O") {
+            return 10 - depth;
+          } else {
+            return 0;
+          }
+        }
+
+        if (isMaximizing) {
+          let bestScore = -Infinity;
+          for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+              if (board[i][j] == "") {
+                board[i][j] = "O";
+                let score = this.minimax(board, depth + 1, false);
+                board[i][j] = "";
+                if (score > bestScore) {
+                  bestScore = score;
+                }
+              }
+            }
+          }
+          return bestScore;
+        } else {
+          let bestScore = Infinity;
+          for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+              if (board[i][j] == "") {
+                board[i][j] = "X";
+                let score = this.minimax(board, depth + 1, true);
+                board[i][j] = "";
+                if (score < bestScore) {
+                  bestScore = score;
+                }
+              }
+            }
+          }
+          return bestScore;
+        }
       },
     };
 
@@ -320,9 +399,6 @@ const TicTacToeGame = (function () {
       radioButton.addEventListener("change", function () {
         if (this.checked) {
           selectedGameMode = this.value;
-          if (this.value === "playerVsBot") {
-            console.log(gameBoard.playerXWin);
-          }
         }
       });
     });
