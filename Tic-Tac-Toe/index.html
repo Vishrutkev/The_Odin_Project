@@ -8,7 +8,7 @@
   </head>
   <body>
     <div class="container">
-      <form class="selection">
+      <!-- <form class="selection">
         <label>
           <input type="radio" name="gameMode" value="playerVsPlayer" checked />
           Player vs. Player
@@ -20,7 +20,30 @@
         <p class="selection-note">
           Note: Changing the above will reset the game
         </p>
-      </form>
+      </form> -->
+      <div class="selection">
+        <button class="game-mode-btn active" data-value="playerVsPlayer">
+          Player vs. Player
+        </button>
+
+        <button class="game-mode-btn" data-value="playerVsBot">
+          <span class="pvb">Player vs. Bot </span
+          ><span class="arrow">&#x25BE;</span>
+
+          <div class="dropdown-container">
+            <div class="dropdown-content">
+              <!-- Dropdown options here -->
+              <a href="#">Easy</a>
+              <a href="#">Hard</a>
+            </div>
+          </div>
+        </button>
+
+        <p class="selection-note">
+          Note: Changing the above will reset the game
+        </p>
+      </div>
+
       <div>
         <div class="who-won"></div>
         <h1>Tic Tac Toe</h1>

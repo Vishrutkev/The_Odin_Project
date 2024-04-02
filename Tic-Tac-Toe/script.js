@@ -11,7 +11,9 @@ const TicTacToeGame = (function () {
     const playerxWin = document.querySelector(".player-x");
     const playeroWin = document.querySelector(".player-o");
     const nextRoundBtn = document.querySelector(".next-round-btn");
-    const radioButtons = document.querySelectorAll('input[name="gameMode"]');
+    const gameModeBtns = document.querySelectorAll(".game-mode-btn");
+    const dropdownOptions = document.querySelectorAll(".dropdown-content a");
+    const pvbTextContent = document.querySelector(".pvb");
 
     return {
       cells,
@@ -22,7 +24,9 @@ const TicTacToeGame = (function () {
       playerxWin,
       playeroWin,
       nextRoundBtn,
-      radioButtons,
+      gameModeBtns,
+      dropdownOptions,
+      pvbTextContent,
     };
   }
 
@@ -181,6 +185,13 @@ const TicTacToeGame = (function () {
     if (winningPositions) {
       if (winningPositions === "tie") {
         gameBoard.whoWon.textContent = "It's a Tie";
+        if (gameBoard.numOfRound >= 5) {
+          if (gameBoard.playerXWin === gameBoard.playerOWin) {
+            gameBoard.whoWon.textContent = `Game is a Tie`;
+            gameBoard.nextRoundBtn.disabled = true;
+            gameBoard.nextRoundBtn.style.cursor = "not-allowed";
+          }
+        }
         return;
       }
       winningPositions.forEach(([row, col]) => {
@@ -246,7 +257,9 @@ const TicTacToeGame = (function () {
       playerxWin,
       playeroWin,
       nextRoundBtn,
-      radioButtons,
+      gameModeBtns,
+      dropdownOptions,
+      pvbTextContent,
     } = Selectors();
 
     const gameBoard = {
@@ -257,10 +270,14 @@ const TicTacToeGame = (function () {
       playerxWin,
       playeroWin,
       nextRoundBtn,
-      radioButtons,
+      gameModeBtns,
+      dropdownOptions,
+      pvbTextContent,
       board: createEmptyBoard(rows, columns),
       numOfRound: 1,
       currentPlayer: "X",
+      selectedGameMode: "playerVsPlayer",
+      selectedValue: "Easy",
       playerXWin: 0,
       playerOWin: 0,
       getBoard: function () {
@@ -392,14 +409,21 @@ const TicTacToeGame = (function () {
       },
     };
 
-    let selectedGameMode = "playerVsPlayer";
+    gameBoard.gameModeBtns.forEach(function (button) {
+      Reload(gameBoard, button);
+      button.addEventListener("click", function () {
+        gameBoard.gameModeBtns.forEach(function (otherButton) {
+          otherButton.classList.remove("active");
+        });
+        this.classList.add("active");
+        gameBoard.selectedGameMode = this.dataset.value;
+      });
+    });
 
-    gameBoard.radioButtons.forEach(function (radioButton) {
-      Reload(gameBoard, radioButton);
-      radioButton.addEventListener("change", function () {
-        if (this.checked) {
-          selectedGameMode = this.value;
-        }
+    gameBoard.dropdownOptions.forEach((option) => {
+      option.addEventListener("click", function () {
+        gameBoard.selectedValue = this.textContent;
+        gameBoard.pvbTextContent.textContent = `Player Vs. Bot (${gameBoard.selectedValue})`;
       });
     });
 
@@ -415,9 +439,13 @@ const TicTacToeGame = (function () {
           cell.classList.add("disabled");
           if (gameBoard.currentPlayer === "X") {
             cell.style.color = "rgb(239, 79, 58)";
-            if (selectedGameMode === "playerVsBot") {
+            if (gameBoard.selectedGameMode === "playerVsBot") {
               setTimeout(() => {
-                gameBoard.hardBotMove();
+                if (gameBoard.selectedValue === "Easy") {
+                  gameBoard.easyBotMove();
+                } else if (gameBoard.selectedValue === "Hard") {
+                  gameBoard.hardBotMove();
+                }
               }, 200);
             }
             gameBoard.currentPlayer = "O";
