@@ -225,14 +225,12 @@ p {
   font-size: 1.2rem;
 }
 
-/* Style the dropdown container */
 .dropdown-container {
   position: relative;
   max-width: 250px;
   display: inline-block;
 }
 
-/* Style the dropdown content */
 .dropdown-content {
   display: none;
   position: absolute;
@@ -242,7 +240,6 @@ p {
   z-index: 1;
 }
 
-/* Style the dropdown options */
 .dropdown-content a {
   color: black;
   padding: 12px 16px;
@@ -250,18 +247,16 @@ p {
   display: block;
 }
 
-/* Change color of dropdown options on hover */
 .dropdown-content a:hover {
   background-color: #ddd;
 }
 
-/* Show the dropdown content when hovering over the button */
 .game-mode-btn:hover .dropdown-content {
   display: block;
 }
 
 .pvb {
-  margin-right: 7px; /* Adjust the value as needed */
+  margin-right: 7px;
 }
 
 .arrow {
