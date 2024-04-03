@@ -13,31 +13,38 @@ Usage
 Contributing
 License
 Demo
-For a live demo of the game, visit this link 
+For a live demo of the game, visit this link [**Live Preview**](https://Vishrutkev.github.io/The_Odin_Project/Tic-Tac-Toe)
 
 Features
+
 Player vs. Player Mode: Challenge your friends and family in a classic two-player game.
 Player vs. Bot Mode: Test your skills against the computer with adjustable difficulty levels.
 Responsive Design: Enjoy seamless gameplay on desktop, tablet, or mobile devices.
 Interactive Interface: Intuitive interface with visual feedback for player moves.
+
 How to Play
+
 The game is played on a 3x3 grid.
 Players take turns marking a square with their symbol (X or O).
 The first player to get three of their symbols in a row (horizontally, vertically, or diagonally) wins the game.
 If all squares are filled without any player achieving three in a row, the game ends in a draw.
+
 Game Modes
+
 Player vs. Player
+
 Two players take turns playing on the same device.
 Perfect for friendly competitions and face-to-face gameplay.
+
 Player vs. Bot
+
 Play against the computer with adjustable difficulty levels:
 Easy: The bot makes random moves.
-Medium: The bot makes strategic moves to block the player.
 Hard: The bot employs the minimax algorithm to play optimally.
+
 Customization
-Change Player Names: Personalize the game by entering custom player names.
 Adjust Bot Difficulty: Modify the bot's difficulty level to match your skill level.
-Toggle Sound Effects: Enable or disable sound effects for a more immersive experience.
+
 Installation
 To run the game locally, follow these steps:
 
