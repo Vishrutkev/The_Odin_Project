@@ -1,72 +1,46 @@
-Tic-Tac-Toe Game
-A classic tic-tac-toe game built with HTML, CSS, and JavaScript.
+# Tic-Tac-Toe Game
 
+Welcome to my Tic-Tac-Toe game! This project is a simple implementation of the classic Tic-Tac-Toe game, built using HTML, CSS, and JavaScript. It provides a fun and interactive way to play the game either against another player or against a computer.
 
-Table of Contents
-Demo
-Features
-How to Play
-Game Modes
-Customization
-Installation
-Usage
-Contributing
-License
-Demo
-For a live demo of the game, visit this link [**Live Preview**](https://Vishrutkev.github.io/The_Odin_Project/Tic-Tac-Toe)
+## Live Demo
 
-Features
+Check out the live demo [**Live Preview**](https://Vishrutkev.github.io/The_Odin_Project/Tic-Tac-Toe).
 
-Player vs. Player Mode: Challenge your friends and family in a classic two-player game.
-Player vs. Bot Mode: Test your skills against the computer with adjustable difficulty levels.
-Responsive Design: Enjoy seamless gameplay on desktop, tablet, or mobile devices.
-Interactive Interface: Intuitive interface with visual feedback for player moves.
+## Features
 
-How to Play
+- Play against another player or against the computer (bot).
+- Simple and intuitive interface.
+- Keeps track of the score.
+- Option to reset the game and start over.
 
-The game is played on a 3x3 grid.
-Players take turns marking a square with their symbol (X or O).
-The first player to get three of their symbols in a row (horizontally, vertically, or diagonally) wins the game.
-If all squares are filled without any player achieving three in a row, the game ends in a draw.
+## How to Play
 
-Game Modes
+1. Open the game in your web browser.
+2. Choose your preferred game mode: Player vs. Player or Player vs. Bot.
+3. Click on the cells to make your move.
+4. The first player to get three of their symbols in a row (horizontally, vertically, or diagonally) wins the game.
+5. If all cells are filled and no player has won, the game ends in a draw.
 
-Player vs. Player
+## Development
 
-Two players take turns playing on the same device.
-Perfect for friendly competitions and face-to-face gameplay.
+This project is developed using HTML, CSS, and JavaScript. It uses modern web technologies to create a responsive and interactive game interface.
 
-Player vs. Bot
+### Architecture
 
-Play against the computer with adjustable difficulty levels:
-Easy: The bot makes random moves.
-Hard: The bot employs the minimax algorithm to play optimally.
+The project follows the module pattern and uses Immediately Invoked Function Expressions (IIFE) to encapsulate the game logic. This ensures that the game code is modular and prevents access to internal variables and functions from the console.
 
-Customization
-Adjust Bot Difficulty: Modify the bot's difficulty level to match your skill level.
+## Setup
 
-Installation
-To run the game locally, follow these steps:
+To run this project locally, follow these steps:
 
-Clone this repository to your local machine:
+1. Clone this repository to your local machine.
+2. Open the `index.html` file in your web browser.
+3. Start playing Tic-Tac-Toe!
 
-bash
-Copy code
-git clone https://github.com/your-username/tic-tac-toe.git
-Navigate to the project directory:
+## Contributing
 
-bash
-Copy code
-cd tic-tac-toe
-Open the index.html file in your preferred web browser.
+Contributions are welcome! If you find any issues or have suggestions for improvement, please feel free to open an issue or submit a pull request.
 
-Usage
-Choose your preferred game mode (Player vs. Player or Player vs. Bot).
-Enter player names (optional).
-Click on the squares to make your moves.
-Enjoy the game and strive for victory!
-Contributing
-Contributions are welcome! If you'd like to contribute to the project, feel free to open an issue or submit a pull request.
+## License
 
-License
-This project is licensed under the MIT License. See the LICENSE file for details.
+This project is licensed under the [MIT License](LICENSE).
